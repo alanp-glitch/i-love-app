@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alan ❤️ Yennifer</title>
+
+<style>
+:root{
+    --crema:#f5e6d3;
+    --vino:#6b0f1a;
+}
+
+body{
+    margin:0;
+    height:100vh;
+    background:linear-gradient(to bottom,var(--crema),#ecd2b8);
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    opacity:0;
+    animation:fadeIn 2s forwards;
+}
+
+/* FADE IN */
+@keyframes fadeIn{
+    to{opacity:1;}
+}
+
+/* CONTADOR */
+.contador{
+    position:absolute;
+    top:20px;
+    width:100%;
+    text-align:center;
+    color:var(--vino);
+    font-size:1.6rem;
+    font-weight:bold;
+}
+
+/* MENSAJE */
+.mensaje{
+    position:absolute;
+    top:60px;
+    width:100%;
+    text-align:center;
+    color:var(--vino);
+    font-size:1.3rem;
+    font-style:italic;
+    white-space:pre-line;
+    animation:fadeIn 3s forwards;
+}
+
+/* ÁRBOL */
+.arbol{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%) scaleY(0);
+    transform-origin:bottom;
+    animation:crecer 3s ease-out forwards;
+}
+
+@keyframes crecer{
+    to{ transform:translateX(-50%) scaleY(1); }
+}
+
+/* TRONCO */
+.tronco{
+    width:60px;
+    height:300px;
+    background:linear-gradient(to right,#3e2723,#5d4037);
+    margin:auto;
+    border-radius:15px;
+    position:relative;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+/* NOMBRES GRABADOS */
+.grabado{
+    color:#2b0b0f;
+    font-weight:bold;
+    font-size:20px;
+    text-align:center;
+    transform:rotate(-90deg);
+    text-shadow:
+        1px 1px 0 #1a0507,
+        -1px -1px 0 #7a2a35;
+}
+
+/* RAMAS */
+.rama{
+    position:absolute;
+    width:220px;
+    height:10px;
+    background:#5d4037;
+    border-radius:10px;
+}
+
+.rama1{top:50px; left:-200px; transform:rotate(-30deg);}
+.rama2{top:110px; left:-210px; transform:rotate(-15deg);}
+.rama3{top:50px; right:-200px; transform:rotate(30deg);}
+.rama4{top:110px; right:-210px; transform:rotate(15deg);}
+.rama5{top:170px; left:-190px; transform:rotate(-5deg);}
+.rama6{top:170px; right:-190px; transform:rotate(5deg);}
+
+/* CORAZONES */
+.corazon{
+    position:absolute;
+    color:var(--vino);
+    font-size:22px;
+    animation:caer linear forwards;
+}
+
+@keyframes caer{
+    0%{ transform:translateY(0); opacity:1;}
+    100%{ transform:translateY(100vh); opacity:0;}
+}
+
+/* BOTÓN */
+.boton{
+    position:absolute;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:var(--vino);
+    color:white;
+    padding:10px 20px;
+    border:none;
+    border-radius:20px;
+    cursor:pointer;
+}
+
+iframe{display:none;}
+</style>
+</head>
+<body>
+
+<div class="contador" id="contador"></div>
+
+<div class="mensaje">
+Para el amor de mi vida
+
+Si me preguntan por un lugar seguro,
+sería junto a ti ❤️
+</div>
+
+<div class="arbol">
+
+    <div class="tronco">
+        <div class="grabado">
+            Alan ❤️ Yennifer
+        </div>
+    </div>
+
+    <div class="rama rama1"></div>
+    <div class="rama rama2"></div>
+    <div class="rama rama3"></div>
+    <div class="rama rama4"></div>
+    <div class="rama rama5"></div>
+    <div class="rama rama6"></div>
+
+</div>
+
+<button class="boton" onclick="iniciarMusica()">Activar música 🎵</button>
+
+<iframe id="musica"
+src="https://www.youtube.com/embed/UZwi9SHgzGY?start=44&autoplay=1&loop=1&playlist=UZwi9SHgzGY">
+</iframe>
+
+<script>
+
+/* FECHA INICIO */
+const fechaInicio = new Date("2024-02-14 00:00:00");
+
+function actualizarContador(){
+    const ahora=new Date();
+    const diff=ahora-fechaInicio;
+
+    const dias=Math.floor(diff/(1000*60*60*24));
+    const horas=Math.floor((diff/(1000*60*60))%24);
+    const minutos=Math.floor((diff/(1000*60))%60);
+    const segundos=Math.floor((diff/1000)%60);
+
+    document.getElementById("contador").innerHTML=
+    `${dias} días ${horas} horas ${minutos} minutos ${segundos} segundos juntos`;
+}
+
+setInterval(actualizarContador,1000);
+actualizarContador();
+
+/* CORAZONES DESDE RAMAS */
+const ramas=document.querySelectorAll(".rama");
+
+function crearCorazon(){
+    const rama=ramas[Math.floor(Math.random()*ramas.length)];
+    const rect=rama.getBoundingClientRect();
+
+    const heart=document.createElement("div");
+    heart.className="corazon";
+    heart.innerHTML="❤";
+
+    heart.style.left=(rect.left+rect.width/2)+"px";
+    heart.style.top=(rect.top)+"px";
+
+    const duracion=Math.random()*4+6;
+    heart.style.animationDuration=duracion+"s";
+
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),duracion*1000);
+}
+
+setInterval(crearCorazon,400);
+
+function iniciarMusica(){
+    document.getElementById("musica").style.display="block";
+}
+
+</script>
+
+</body>
+</html>
